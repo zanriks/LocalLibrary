@@ -1,0 +1,27 @@
+{% extends "base_generic.html" %}
+
+{% block title %}Главная — Local Library{% endblock %}
+
+{% block content %}
+  <h1>Добро пожаловать в LocalLibrary!</h1>
+  <p>LocalLibrary — это веб-сайт, созданный в учебных целях.</p>
+
+  <div class="row">
+    <div class="col-md-6">
+      <h2>Статистика</h2>
+      <ul>
+        <li><strong>Книг:</strong> {{ num_books }}</li>
+        <li><strong>Экземпляров книг:</strong> {{ num_instances }}</li>
+        <li><strong>Доступных экземпляров:</strong> {{ num_instances_available }}</li>
+        <li><strong>Авторов:</strong> {{ num_authors }}</li>
+        <li><strong>Жанров:</strong> {{ num_genres }}</li>
+        <li><strong>Книг со словом "война" в названии:</strong> {{ num_books_with_word }}</li>
+      </ul>
+      <p>
+        Вы посещали эту страницу
+        <strong>{{ num_visits }}</strong>
+        {% if num_visits == 1 %}раз{% else %}раз(а){% endif %}.
+      </p>
+    </div>
+  </div>
+{% endblock %}
