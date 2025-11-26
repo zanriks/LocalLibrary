@@ -1,20 +1,18 @@
 {% extends "base_generic.html" %}
-
-{% block title %}Главная — Local Library{% endblock %}
-
 {% block content %}
-  <h1>Добро пожаловать в LocalLibrary!</h1>
-  <p>LocalLibrary — это веб-сайт, созданный в учебных целях.</p>
+  <h1>Local Library Home</h1>
+  <p>Welcome to <em>LocalLibrary</em>, a very basic Django website developed as a tutorial example on the Mozilla Developer Network.</p>
 
   <div class="row">
     <div class="col-md-6">
-      <h2>Статистика</h2>
+      <h2>Dynamic content</h2>
+      <p>The library has the following record counts:</p>
       <ul>
-        <li><strong>Книг:</strong> {{ num_books }}</li>
-        <li><strong>Экземпляров книг:</strong> {{ num_instances }}</li>
-        <li><strong>Доступных экземпляров:</strong> {{ num_instances_available }}</li>
-        <li><strong>Авторов:</strong> {{ num_authors }}</li>
-        <li><strong>Жанров:</strong> {{ num_genres }}</li>
+        <li><strong>Books:</strong> {{ num_books }}</li>
+        <li><strong>Copies:</strong> {{ num_instances }}</li>
+        <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
+        <li><strong>Authors:</strong> {{ num_authors }}</li>
+        <li><strong>Genres:</strong> {{ num_genres }}</li>
         <li><strong>Книг со словом "война" в названии:</strong> {{ num_books_with_word }}</li>
       </ul>
       <p>

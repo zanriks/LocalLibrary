@@ -1,5 +1,8 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+from datetime import date
+import uuid # Required for unique book instances
 
 class MyModelName(models.Model):
     """Типичный класс модели, производный от класса Model."""
@@ -67,16 +70,12 @@ class Book(models.Model):
         return ', '.join([genre.name for genre in self.genre.all()[:3] ])
     display_genre.short_description = 'Genre'
 
-import uuid # Required for unique book instances
-
 class BookInstance(models.Model):
-    """
-    Model representing a specific copy of a book (i.e. that can be borrowed from the library).
-    """
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
-    book = models.ForeignKey('Book', on_delete=models.SET_NULL, null=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4(), help_text="Unique ID for this particular book across whole library")
+    book = models.ForeignKey('Book', on_delete=models.RESTRICT, null=True)
     imprint = models.CharField(max_length=200)
     due_back = models.DateField(null=True, blank=True)
+    borrower = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     LOAN_STATUS = (
         ('m', 'Maintenance'),
@@ -85,10 +84,26 @@ class BookInstance(models.Model):
         ('r', 'Reserved'),
     )
 
-    status = models.CharField(max_length=1, choices=LOAN_STATUS, blank=True, default='m', help_text='Book availability')
+    status = models.CharField(
+        max_length=1,
+        choices=LOAN_STATUS,
+        blank=True,
+        default='m',
+        help_text='Book availability',
+    )
 
     class Meta:
-        ordering = ["due_back"]
+        ordering = ['due_back']
+        permissions = (("can_mark_returned", "Set book as returned"),)  # <-- разрешение
+
+    @property
+    def is_overdue(self):
+        if self.due_back and date.today() > self.due_back:
+            return True
+        return False
+
+    def __str__(self):
+        return f'{self.id} ({self.book.title})'
 
 
     def __str__(self):
@@ -118,4 +133,3 @@ class Author(models.Model):
         String for representing the Model object.
         """
         return '%s, %s' % (self.last_name, self.first_name)
-
