@@ -41,7 +41,7 @@ def index(request):
 # Список книг
 class BookListView(ListView):
     model = Book
-    paginate_by = 10
+    paginate_by = 2
 
 # Детали книги
 class BookDetailView(DetailView):
