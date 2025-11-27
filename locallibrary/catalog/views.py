@@ -66,17 +66,13 @@ class LoanedBooksByUserListView(LoginRequiredMixin, generic.ListView):
             borrower=self.request.user
         ).filter(status__exact='o').order_by('due_back')
 
-@permission_required('catalog.can_mark_returned')
-@permission_required('catalog.can_edit')
-# def my_view(request):
-
-class MyView(PermissionRequiredMixin, View):
-    permission_required = 'catalog.can_mark_returned'
-    # Or multiple permissions
-    permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
-    # Note that 'catalog.can_edit' is just an example
-    # the catalog application doesn't have such permission!
-
+# @permission_required('catalog.can_mark_returned')
+# class MyView(PermissionRequiredMixin, View):
+#     permission_required = 'catalog.can_mark_returned'
+#     # Or multiple permissions
+#     permission_required = ('catalog.can_mark_returned', 'catalog.can_edit')
+#     # Note that 'catalog.can_edit' is just an example
+#     # the catalog application doesn't have such permission!
 
 @permission_required('catalog.can_mark_returned')
 def renew_book_librarian(request, pk):
